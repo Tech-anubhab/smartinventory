@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #0f172a;
+    color: #f1f5f9;
+  }
+
+  .settings-container {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .settings-card {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+
+  .settings-header {
+    padding: 24px 30px;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .settings-header h3 {
+    margin: 0;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+
+  .settings-header p {
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .settings-body {
+    padding: 30px;
+  }
+
+  .setting-item {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+    transition: 0.3s ease;
+  }
+
+  .setting-item:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+  }
+
+  .setting-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 6px;
+  }
+
+  .setting-desc {
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .setting-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: rgba(59, 130, 246, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
+    font-size: 20px;
+  }
+
+  .setting-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+</style>
+
+<div class="settings-container">
+
+  <div class="settings-card">
+
+    <div class="settings-header">
+      <h3>⚙ Smart Inventory Settings</h3>
+      <p>Manage your inventory preferences and application settings.</p>
+    </div>
+
+    <div class="settings-body">
+
+      <div class="setting-item">
+        <div class="setting-row">
+
+          <div class="setting-icon">
+            🔔
+          </div>
+
+          <div>
+            <div class="setting-title">
+              Notifications
+            </div>
+
+            <div class="setting-desc">
+              Manage stock alerts and system notifications.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-row">
+
+          <div class="setting-icon">
+            📊
+          </div>
+
+          <div>
+            <div class="setting-title">
+              Dashboard Preferences
+            </div>
+
+            <div class="setting-desc">
+              Customize dashboard layout and analytics view.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-row">
+
+          <div class="setting-icon">
+            👤
+          </div>
+
+          <div>
+            <div class="setting-title">
+              User Management
+            </div>
+
+            <div class="setting-desc">
+              Control user access and permissions.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div class="setting-row">
+
+          <div class="setting-icon">
+            🌙
+          </div>
+
+          <div>
+            <div class="setting-title">
+              Appearance
+            </div>
+
+            <div class="setting-desc">
+              Switch themes and personalize interface appearance.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

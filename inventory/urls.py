@@ -9,5 +9,6 @@ urlpatterns = [
     path("<int:pk>/sell/", views.item_sell, name="inventory_sell"),
     path("reset/", views.reset_inventory, name="inventory_reset"),
     path('sales/', views.sales_report, name='sales_report'),
+    path("settings/", views.settings, name="settings"),
 ]
 

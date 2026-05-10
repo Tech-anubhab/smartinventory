@@ -1,13 +1,69 @@
 {% extends "base.html" %}
-
 {% block title %}Items{% endblock %}
+{% block page_title %}Inventory{% endblock %}
 
 {% block content %}
- <div class="d-flex justify-content-between align-items-center mb-3">
-  <h5 class="mb-0">Inventory</h5>
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+
+  <form method="GET" class="d-flex align-items-center gap-2">
+
+  <div class="d-flex align-items-center">
+
+    <button 
+      type="submit" 
+      class="btn btn-sm btn-outline-info"
+      style="
+        border-radius:12px 0 0 12px;
+        border-right:none;
+        height:38px;
+      "
+    >
+      <i class="bi bi-search"></i>
+    </button>
+
+    <input 
+  type="text"
+  name="search"
+  placeholder="Search by SKU..."
+  value="{{ request.GET.search }}"
+  class="form-control form-control-sm bg-dark text-light border-info"
+  style="
+    width: 220px;
+    border-radius:0;
+    height:38px;
+    border-left:none;
+    border-right:none;
+    border-top:1px solid #0dcaf0;
+    border-bottom:1px solid #0dcaf0;
+  "
+>
+
+    <button 
+      type="submit"
+      class="btn btn-sm btn-outline-info"
+      style="
+        border-radius:0 12px 12px 0;
+        height:38px;
+      "
+    >
+      Search
+    </button>
+
+  </div>
+
+</form>
+
+  <!-- Inventory text in CENTER -->
+  <h4 class="mb-0 text-center flex-grow-1">
+    INVENTORY 
+  </h4>
+
+  <!-- Add item button on RIGHT -->
   <a href="{% url 'inventory_create' %}" class="btn btn-sm btn-primary">
     <i class="bi bi-plus-circle me-1"></i>Add item
   </a>
+
 </div>
 
 <table class="table table-dark table-hover table-borderless align-middle mb-0">
@@ -33,16 +89,24 @@
         {% endif %}
       </td>
       <td>₹{{ item.unit_price }}</td>
-     <td>
+     <td class="d-flex gap-2">
   <a href="{% url 'inventory_update' item.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
+  
   <a href="{% url 'inventory_sell' item.pk %}" class="btn btn-sm btn-outline-success">Sell</a>
+  
   <a href="{% url 'inventory_delete' item.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
 </td>
 
     </tr>
     {% empty %}
     <tr>
-      <td colspan="5" class="text-center text-muted">No items yet.</td>
+      <td colspan="5" class="text-center text-danger">
+    No Items Yet.
+    <a href="{% url 'inventory_create' %}" 
+   class="ms-2 fw-bold add-glow">
+   Sell Items
+</a>
+  </td>
     </tr>
     {% endfor %}
   </tbody>

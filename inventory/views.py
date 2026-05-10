@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q, Sum, Avg, Count
 
-from .models import Item, SellRecord
+from .models import Item, SellRecord, UserProfile
 from .forms import ItemForm, SellRecordForm
 from audit.utils import create_audit_log
 from audit.models import AuditLog
@@ -174,6 +174,57 @@ def reset_inventory(request):
 
 @login_required
 def sales_report(request):
-    sales = SellRecord.objects.filter(user=request.user).select_related('item').order_by('-created_at')
-    context = {'sales': sales}
-    return render(request, 'inventory/sales_report.html', context)
+    sales = (
+        SellRecord.objects
+        .filter(user=request.user)
+        .select_related("item")
+        .order_by("-created_at")
+    )
+
+    total_revenue = sum(sale.revenue for sale in sales)
+    total_profit = sum(sale.profit for sale in sales)
+
+    avg_profit = 0
+
+    if sales.count() > 0:
+        avg_profit = total_profit / sales.count()
+
+    context = {
+        "sales": sales,
+        "total_revenue": total_revenue,
+        "total_profit": total_profit,
+        "avg_profit": avg_profit,
+    }
+
+    return render(request, "inventory/sales_report.html", context)
+
+
+    
+@login_required
+def settings(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        threshold = request.POST.get("threshold")
+
+        if threshold:
+            profile.low_stock_threshold = threshold
+            profile.save()
+
+            messages.success(request, "Settings updated successfully.")
+
+            create_audit_log(
+                request,
+                AuditLog.Action.UPDATE,
+                "Settings",
+                profile.pk,
+                description=f"Updated low stock threshold to {threshold}",
+            )
+
+            return redirect("setting")
+
+    context = {
+        "threshold": profile.low_stock_threshold,
+    }
+
+    return render(request, "inventory/setting.html", context)

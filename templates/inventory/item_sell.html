@@ -1,16 +1,274 @@
 {% extends "base.html" %}
 
-{% block title %}Sell{% endblock %}
-{% block page_title %}Sell item{% endblock %}
+{% block title %}Sell Item{% endblock %}
+{% block page_title %}Sell Item{% endblock %}
 
 {% block content %}
-  <h5 class="mb-3">Sell {{ item.name }} ({{ item.sku }})</h5>
-  <p class="text-muted mb-2">Current stock: {{ item.quantity }}</p>
 
-  <form method="post" class="card-glass p-3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Record sell</button>
-    <a href="{% url 'inventory_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+<style>
+
+.sell-page{
+    color:white;
+}
+
+.sell-card{
+    background: rgba(5,15,40,0.96);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 0 35px rgba(0,0,0,0.35);
+}
+
+.sell-header{
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.product-info{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.product-icon{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    background:rgba(59,130,246,0.12);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:32px;
+    color:#60a5fa;
+    box-shadow:0 0 25px rgba(59,130,246,0.35);
+}
+
+.product-title{
+    font-size:38px;
+    font-weight:700;
+    line-height:1;
+}
+
+.product-subtitle{
+    color:#9ca6c7;
+    margin-top:8px;
+    font-size:16px;
+}
+
+.stock-badge{
+    background:rgba(34,197,94,0.15);
+    color:#22c55e;
+    padding:12px 18px;
+    border-radius:14px;
+    font-weight:600;
+    font-size:15px;
+}
+
+.sell-form{
+    padding:35px;
+}
+
+.custom-label{
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:12px;
+    color:white;
+}
+
+.input-wrapper{
+    position:relative;
+}
+
+.input-icon{
+    position:absolute;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+}
+
+.icon-green{
+    background:rgba(34,197,94,0.15);
+    color:#22c55e;
+}
+
+.icon-yellow{
+    background:rgba(245,158,11,0.15);
+    color:#fbbf24;
+}
+
+.custom-input{
+    width:100%;
+    height:64px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.08);
+    background:#07132c;
+    color:white;
+    padding-left:75px;
+    font-size:18px;
+    outline:none;
+    box-shadow:none;
+}
+
+.custom-input:focus{
+    border-color:#4f46e5;
+    box-shadow:0 0 18px rgba(79,70,229,0.3);
+}
+
+.bottom-actions{
+    margin-top:35px;
+    display:flex;
+    justify-content:flex-end;
+    gap:18px;
+}
+
+.cancel-btn{
+    padding:14px 30px;
+    border-radius:16px;
+    border:1px solid #0dcaf0;
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.cancel-btn:hover{
+    background:rgba(255,255,255,0.05);
+}
+
+.sell-btn{
+    padding:14px 32px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(to right,#16a34a,#22c55e);
+    color:white;
+    font-weight:600;
+    box-shadow:0 0 25px rgba(34,197,94,0.35);
+}
+
+.sell-btn:hover{
+    opacity:0.95;
+}
+
+</style>
+
+<div class="sell-page">
+
+    <div class="sell-card">
+
+        <div class="sell-header">
+
+            <div class="product-info">
+
+                <div class="product-icon">
+                    <i class="bi bi-cart-check"></i>
+                </div>
+
+                <div>
+                    <div class="product-title">
+                        Sell Item
+                    </div>
+
+                    <div class="product-subtitle">
+                        {{ item.name }} ({{ item.sku }})
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="stock-badge">
+                Current Stock: {{ item.quantity }}
+            </div>
+
+        </div>
+
+        <form method="post" class="sell-form">
+
+            {% csrf_token %}
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label class="custom-label">
+                        Quantity
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <div class="input-icon icon-green">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+
+                        {{ form.quantity }}
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="custom-label">
+                        Sell Price (₹)
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <div class="input-icon icon-yellow">
+                            ₹
+                        </div>
+
+                        {{ form.sell_price }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger mt-4">
+                Please fix the highlighted fields.
+            </div>
+            {% endif %}
+
+            <div class="bottom-actions">
+
+                <a href="{% url 'inventory_list' %}" class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="sell-btn">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Record Sell
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("id_quantity").classList.add("custom-input");
+
+document.getElementById("id_sell_price").classList.add("custom-input");
+
+document.getElementById("id_quantity").placeholder = "Enter quantity";
+
+document.getElementById("id_sell_price").placeholder = "Enter sell price";
+
+</script>
+
 {% endblock %}

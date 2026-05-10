@@ -62,3 +62,16 @@ class SellRecord(models.Model):
     @property
     def profit(self):
         return self.revenue - self.cost
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="profile",
+    )
+
+    low_stock_threshold = models.PositiveIntegerField(default=5)
+
+    def __str__(self):
+        return f"{self.user.username} Profile"
