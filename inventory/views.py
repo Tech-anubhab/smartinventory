@@ -231,35 +231,20 @@ def reset_inventory(request):
 
 @login_required
 def sales_report(request):
-
-    sales = SellRecord.objects.filter(
-        user=request.user
-    ).select_related(
-        "item"
-    ).order_by(
-        "-created_at"
+    sales = (
+        SellRecord.objects
+        .filter(user=request.user)
+        .select_related("item")
+        .order_by("-created_at")
     )
 
-    total_revenue = 0
-    total_profit = 0
+    total_revenue = sum(sale.revenue for sale in sales)
+    total_profit = sum(sale.profit for sale in sales)
 
-    for sale in sales:
+    avg_profit = 0
 
-        revenue = sale.quantity * sale.sell_price
-        profit = revenue - (
-            sale.quantity * sale.item.unit_price
-        )
-
-        total_revenue += revenue
-        total_profit += profit
-
-    sales_count = sales.count()
-
-    avg_profit = (
-        total_profit / sales_count
-        if sales_count > 0
-        else 0
-    )
+    if sales.count() > 0:
+        avg_profit = total_profit / sales.count()
 
     context = {
         "sales": sales,
@@ -268,11 +253,7 @@ def sales_report(request):
         "avg_profit": avg_profit,
     }
 
-    return render(
-        request,
-        "inventory/sales_report.html",
-        context,
-    )
+    return render(request, "inventory/sales_report.html", context)
 
 
 @login_required

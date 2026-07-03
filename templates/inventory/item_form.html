@@ -4,6 +4,240 @@
 
 {% block content %}
 
+<style>
+  .inventory-page{
+    color: white;
+  }
+
+  .breadcrumb-custom{
+    color: #7c8cff;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .main-card{
+    background: rgba(5,15,40,0.96);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.35);
+  }
+
+  .main-header{
+    padding: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .title-wrap{
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .cube-icon{
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: rgba(99,102,241,0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    color: #7c8cff;
+    box-shadow: 0 0 25px rgba(99,102,241,0.3);
+  }
+
+  .page-heading{
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .page-subtitle{
+    color: #9ca6c7;
+    margin-top: 8px;
+    font-size: 16px;
+  }
+
+  .back-btn{
+    padding: 12px 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .back-btn:hover{
+    background: rgba(255,255,255,0.05);
+  }
+
+  .form-section{
+    padding: 40px 50px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .custom-label{
+    color: white;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .required{
+    color: #ff5f7d;
+  }
+
+  .input-wrapper{
+    position: relative;
+  }
+
+  .input-icon{
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+  }
+
+  .icon-blue{
+    background: rgba(59,130,246,0.15);
+    color: #3b82f6;
+  }
+
+  .icon-purple{
+    background: rgba(168,85,247,0.15);
+    color: #b56dff;
+  }
+
+  .icon-green{
+    background: rgba(34,197,94,0.15);
+    color: #22c55e;
+  }
+
+  .icon-yellow{
+    background: rgba(245,158,11,0.15);
+    color: #fbbf24;
+  }
+
+  .custom-input{
+    background: #07132c !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 18px !important;
+    padding-left: 70px !important;
+    height: 62px;
+    width: calc(90% + 30px) !important;
+    font-size: 17px;
+    box-shadow: none !important;
+  }
+
+  .custom-textarea{
+    background: #07132c !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    color: white !important;
+    border-radius: 20px !important;
+    padding-left: 70px !important;
+    padding-top: 18px !important;
+    min-height: 180px;
+    font-size: 17px;
+    resize: none;
+    box-shadow: none !important;
+  }
+
+  .help-text{
+    color: #9aa4c5;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .bottom-actions{
+    padding: 25px 30px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: flex-end;
+    gap: 18px;
+  }
+
+  .cancel-btn{
+    padding: 14px 34px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    text-decoration: none;
+  }
+
+  .save-btn{
+    padding: 14px 34px;
+    border-radius: 16px;
+    border: none;
+    color: white;
+    background: linear-gradient(to right,#2563eb,#4f46e5);
+    box-shadow: 0 0 25px rgba(79,70,229,0.45);
+  }
+
+  .tips-card{
+    background: rgba(5,15,40,0.96);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 28px;
+    height: 100%;
+  }
+
+  .tips-title{
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .tip-item{
+    display: flex;
+    gap: 18px;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .tip-icon{
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .tip-text h6{
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .tip-text p{
+    color: #9ea7c6;
+    margin: 0;
+    font-size: 15px;
+  }
+  .description-wide textarea{
+    width: 100% !important;
+    min-width: 100% !important;
+}
+input::placeholder,
+textarea::placeholder{
+    color: rgba(255,255,255,0.45) !important;
+    opacity: 1 !important;
+}
+</style>
+
 <div class="inventory-page">
 
   <div class="breadcrumb-custom">
@@ -95,7 +329,7 @@
 
                 <div class="input-wrapper">
 
-                  <div class="input-icon icon-purple">
+                  <div class="input-icon icon-purple" style="top:35px;">
                     <i class="bi bi-file-earmark-text"></i>
                   </div>
 
@@ -222,7 +456,7 @@
 
         </div>
 
-        <div class="tip-item no-border">
+        <div class="tip-item" style="border:none;">
 
           <div class="tip-icon icon-yellow">
             ₹
