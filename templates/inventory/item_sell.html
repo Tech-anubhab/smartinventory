@@ -1,16 +1,119 @@
 {% extends "base.html" %}
 
-{% block title %}Sell{% endblock %}
-{% block page_title %}Sell item{% endblock %}
+{% block title %}Sell Item{% endblock %}
+{% block page_title %}Sell Item{% endblock %}
 
 {% block content %}
-  <h5 class="mb-3">Sell {{ item.name }} ({{ item.sku }})</h5>
-  <p class="text-muted mb-2">Current stock: {{ item.quantity }}</p>
 
-  <form method="post" class="card-glass p-3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Record sell</button>
-    <a href="{% url 'inventory_list' %}" class="btn btn-secondary">Cancel</a>
-  </form>
+<div class="sell-page">
+
+    <div class="sell-card">
+
+        <div class="sell-header">
+
+            <div class="product-info">
+
+                <div class="product-icon">
+                    <i class="bi bi-cart-check"></i>
+                </div>
+
+                <div>
+                    <div class="product-title">
+                        Sell Item
+                    </div>
+
+                    <div class="product-subtitle">
+                        {{ item.name }} ({{ item.sku }})
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="stock-badge">
+                Current Stock: {{ item.quantity }}
+            </div>
+
+        </div>
+
+        <form method="post" class="sell-form">
+
+            {% csrf_token %}
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label class="custom-label">
+                        Quantity
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <div class="input-icon icon-green">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+
+                        {{ form.quantity }}
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="custom-label">
+                        Sell Price (₹)
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <div class="input-icon icon-yellow">
+                            ₹
+                        </div>
+
+                        {{ form.sell_price }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger mt-4">
+                Please fix the highlighted fields.
+            </div>
+            {% endif %}
+
+            <div class="bottom-actions">
+
+                <a href="{% url 'inventory_list' %}" class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="sell-btn">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Record Sell
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("id_quantity").classList.add("custom-input");
+
+document.getElementById("id_sell_price").classList.add("custom-input");
+
+document.getElementById("id_quantity").placeholder = "Enter quantity";
+
+document.getElementById("id_sell_price").placeholder = "Enter sell price";
+
+</script>
+
 {% endblock %}

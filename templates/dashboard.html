@@ -6,7 +6,7 @@
 {% block content %}
   <div class="row g-3 mb-3">
     <div class="col-md-4">
-      <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#4f46e5,#6366f1);">
+      <div class="stat-card stat-card-blue">
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <div class="text-white-50 small">Total items</div>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+      <div class="stat-card stat-card-orange">
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <div class="text-white-50 small">Low stock</div>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#22c55e,#16a34a);">
+      <div class="stat-card stat-card-green">
         <div class="d-flex justify-content-between align-items-center">
           <div>
             <div class="text-white-50 small">Inventory value</div>
@@ -70,7 +70,7 @@
             <div class="fs-2 text-primary"><i class="bi bi-plus-circle"></i></div>
             <div>
               <div class="fw-semibold text-light">Add new item</div>
-              <small class="text-muted">Register fresh stock into inventory.</small>
+              <small class="text-success">Register fresh stock into inventory.</small>
             </div>
           </div>
         </a>
@@ -81,7 +81,7 @@
             <div class="fs-2 text-info"><i class="bi bi-boxes"></i></div>
             <div>
               <div class="fw-semibold text-light">View inventory</div>
-              <small class="text-muted">Search, filter and manage existing items.</small>
+              <small class="text-warning">Search, filter and manage existing items.</small>
             </div>
           </div>
         </a>
@@ -91,7 +91,7 @@
 
   <div class="row g-3 mt-2">
   <div class="col-md-4">
-    <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#0f172a,#1d4ed8);">
+    <div class="stat-card stat-card-indigo">
       <div class="text-white-50 small">Money invested</div>
       <div class="display-6 fw-bold text-white">₹{{ money_invested|floatformat:2 }}</div>
       <div class="text-white-50 small mt-2">
@@ -101,7 +101,7 @@
   </div>
 
   <div class="col-md-4">
-    <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#0369a1,#06b6d4);">
+    <div class="stat-card stat-card-cyan">
       <div class="text-white-50 small">Revenue</div>
       <div class="display-6 fw-bold text-white">₹{{ revenue|floatformat:2 }}</div>
       <div class="text-white-50 small mt-2">
@@ -111,7 +111,7 @@
   </div>
 
   <div class="col-md-4">
-    <div class="p-3 h-100 rounded-4" style="background:linear-gradient(135deg,#16a34a,#22c55e);">
+    <div class="stat-card stat-card-green">
       <div class="text-white-50 small">Profit / Loss</div>
       <div class="display-6 fw-bold text-white">
         ₹{{ profit|floatformat:2 }}

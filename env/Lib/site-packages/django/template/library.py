@@ -4,6 +4,7 @@ from importlib import import_module
 from inspect import getfullargspec, unwrap
 
 from django.utils.html import conditional_escape
+from django.utils.inspect import lazy_annotations
 
 from .base import Node, Template, token_kwargs
 from .exceptions import TemplateSyntaxError
@@ -72,7 +73,8 @@ class Library:
                 # @register.filter
                 return self.filter_function(name, **flags)
             else:
-                # @register.filter('somename') or @register.filter(name='somename')
+                # @register.filter('somename') or
+                # @register.filter(name='somename')
                 def dec(func):
                     return self.filter(name, func, **flags)
 
@@ -109,15 +111,16 @@ class Library:
         """
 
         def dec(func):
-            (
-                params,
-                varargs,
-                varkw,
-                defaults,
-                kwonly,
-                kwonly_defaults,
-                _,
-            ) = getfullargspec(unwrap(func))
+            with lazy_annotations():
+                (
+                    params,
+                    varargs,
+                    varkw,
+                    defaults,
+                    kwonly,
+                    kwonly_defaults,
+                    _,
+                ) = getfullargspec(unwrap(func))
             function_name = name or func.__name__
 
             @wraps(func)
@@ -164,16 +167,16 @@ class Library:
 
         def dec(func):
             nonlocal end_name
-
-            (
-                params,
-                varargs,
-                varkw,
-                defaults,
-                kwonly,
-                kwonly_defaults,
-                _,
-            ) = getfullargspec(unwrap(func))
+            with lazy_annotations():
+                (
+                    params,
+                    varargs,
+                    varkw,
+                    defaults,
+                    kwonly,
+                    kwonly_defaults,
+                    _,
+                ) = getfullargspec(unwrap(func))
             function_name = name or func.__name__
 
             if end_name is None:
@@ -248,15 +251,16 @@ class Library:
         """
 
         def dec(func):
-            (
-                params,
-                varargs,
-                varkw,
-                defaults,
-                kwonly,
-                kwonly_defaults,
-                _,
-            ) = getfullargspec(unwrap(func))
+            with lazy_annotations():
+                (
+                    params,
+                    varargs,
+                    varkw,
+                    defaults,
+                    kwonly,
+                    kwonly_defaults,
+                    _,
+                ) = getfullargspec(unwrap(func))
             function_name = name or func.__name__
 
             @wraps(func)
@@ -304,7 +308,7 @@ class TagHelperNode(Node):
     def get_resolved_arguments(self, context):
         resolved_args = [var.resolve(context) for var in self.args]
         if self.takes_context:
-            resolved_args = [context] + resolved_args
+            resolved_args = [context, *resolved_args]
         resolved_kwargs = {k: v.resolve(context) for k, v in self.kwargs.items()}
         return resolved_args, resolved_kwargs
 
@@ -484,5 +488,5 @@ def import_library(name):
         return module.register
     except AttributeError:
         raise InvalidTemplateLibrary(
-            "Module  %s does not have a variable named 'register'" % name,
+            "Module %s does not have a variable named 'register'" % name,
         )

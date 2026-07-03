@@ -25,6 +25,10 @@ class ObjectDoesNotExist(Exception):
     silent_variable_failure = True
 
 
+class ObjectNotUpdated(Exception):
+    """The updated object no longer exists."""
+
+
 class MultipleObjectsReturned(Exception):
     """The query returned multiple objects when only one was expected."""
 
@@ -54,7 +58,7 @@ class DisallowedHost(SuspiciousOperation):
 
 
 class DisallowedRedirect(SuspiciousOperation):
-    """Redirect to scheme not in allowed list"""
+    """Redirect was too long or scheme was not in allowed list."""
 
     pass
 

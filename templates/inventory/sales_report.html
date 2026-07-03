@@ -8,16 +8,15 @@
   <a href="{% url 'inventory_list' %}" class="btn btn-secondary btn-sm">← Inventory</a>
 </div>
 
-<!-- Summary Cards -->
 <div class="row g-3 mb-4">
   <div class="col-md-3">
-    <div class="p-3 rounded-3 text-center" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); color:white;">
+    <div class="metric-card metric-card-blue text-center">
       <div class="h6 opacity-75 mb-1">Total Revenue</div>
       <div class="display-6 fw-bold">₹{{ total_revenue|floatformat:0 }}</div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="p-3 rounded-3 text-center" style="background:linear-gradient(135deg,#059669,#10b981); color:white;">
+    <div class="metric-card metric-card-green text-center">
       <div class="h6 opacity-75 mb-1">Total Profit</div>
       <div class="display-6 fw-bold {% if total_profit >= 0 %}text-white{% else %}text-danger{% endif %}">
         ₹{{ total_profit|floatformat:0 }}
@@ -25,13 +24,13 @@
     </div>
   </div>
   <div class="col-md-3">
-    <div class="p-3 rounded-3 text-center" style="background:linear-gradient(135deg,#7c2d12,#dc2626); color:white;">
+    <div class="metric-card metric-card-red text-center">
       <div class="h6 opacity-75 mb-1">Sales Count</div>
       <div class="display-6 fw-bold">{{ sales.count }}</div>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="p-3 rounded-3 text-center" style="background:linear-gradient(135deg,#ea580c,#f97316); color:white;">
+    <div class="metric-card metric-card-orange text-center">
       <div class="h6 opacity-75 mb-1">Avg Profit/Sale</div>
       <div class="display-6 fw-bold">₹{{ avg_profit|floatformat:0 }}</div>
     </div>
@@ -42,14 +41,15 @@
   <table class="table table-dark table-hover">
     <thead>
       <tr>
-        <th>Date</th><th>Item</th><th>Qty</th><th>Sell ₹</th><th>Revenue</th><th>Profit</th>
+        <th>Date</th><th>Item</th><th>Sku</th><th>Qty</th><th>Sell ₹</th><th>Revenue</th><th>Profit</th>
       </tr>
     </thead>
     <tbody>
     {% for sale in sales %}
     <tr>
       <td>{{ sale.created_at|date:"M d, Y H:i" }}</td>
-      <td><strong>{{ sale.item.name }}</strong><br><small class="text-muted">{{ sale.item.sku }}</small></td>
+      <td><strong>{{ sale.item.name }}</strong><br></td>
+      <td class="fw-bold"><small>{{ sale.item.sku }}</small></td>
       <td class="fw-bold">{{ sale.quantity }}</td>
       <td>₹{{ sale.sell_price|floatformat:0 }}</td>
       <td>₹{{ sale.revenue|floatformat:0 }}</td>
@@ -58,7 +58,7 @@
       </td>
     </tr>
     {% empty %}
-    <tr><td colspan="6" class="text-center text-muted py-5">
+    <tr><td colspan="7" class="text-center text-danger py-5">
       No sales yet. <a href="{% url 'inventory_list' %}" class="text-primary">Start selling →</a>
     </td></tr>
     {% endfor %}

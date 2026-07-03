@@ -1,8 +1,11 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db import models
+from django.conf import settings
+from django.views.static import serve
+import os
 
 from inventory.models import Item, SellRecord
 
@@ -44,3 +47,9 @@ urlpatterns = [
     path("inventory/", include("inventory.urls")),
     path("", dashboard_view, name="dashboard"),
 ]
+
+# Serve static files from STATIC_ROOT during local development (HTTPS dev server)
+if os.environ.get("DEV_SERVE_STATIC", "1") == "1":
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    ]

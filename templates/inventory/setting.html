@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <div class="page-header">
+        <h2 class="page-title">⚙ Settings</h2>
+        <p class="page-subtitle">
+            Manage your inventory system preferences
+        </p>
+    </div>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="settings-grid">
+
+            <div class="settings-card">
+                <h4 class="card-title">Business Profile</h4>
+                <div class="mb-3">
+                    {{ form.company_name.label_tag }}
+                    {{ form.company_name }}
+                    {{ form.company_name.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.business_email.label_tag }}
+                    {{ form.business_email }}
+                    {{ form.business_email.errors }}
+                </div>
+                <div class="mb-3">
+                    {{ form.phone_number.label_tag }}
+                    {{ form.phone_number }}
+                    {{ form.phone_number.errors }}
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h4 class="card-title">Inventory Rules</h4>
+                <div class="mb-3">
+                    {{ form.low_stock_threshold.label_tag }}
+                    {{ form.low_stock_threshold }}
+                    {{ form.low_stock_threshold.errors }}
+                    <div class="form-text">Trigger a low stock alert when inventory runs low.</div>
+                </div>
+                <div class="form-check mb-3">
+                    {{ form.email_notifications }}
+                    {{ form.email_notifications.label_tag }}
+                </div>
+                <div class="form-check mb-3">
+                    {{ form.auto_backup }}
+                    {{ form.auto_backup.label_tag }}
+                </div>
+                <div class="mb-3">
+                    {{ form.backup_frequency.label_tag }}
+                    {{ form.backup_frequency }}
+                    {{ form.backup_frequency.errors }}
+                </div>
+            </div>
+
+            <div class="settings-card">
+                <h4 class="card-title">Account</h4>
+                <p class="text-white-50 mb-2">Username</p>
+                <div class="readonly-box mb-3">{{ request.user.username }}</div>
+                <p class="text-white-50 mb-2">Role</p>
+                <div class="readonly-box">{{ request.user.role|default:"User" }}</div>
+            </div>
+
+            <div class="settings-card">
+                <h4 class="card-title">Client Ready</h4>
+                <p class="text-white-50">This app is configured for small market retailers with easy setup and a responsive dashboard.</p>
+                <ul class="settings-feature-list">
+                    <li>Low stock alerts and inventory controls</li>
+                    <li>Backup scheduling and email options</li>
+                    <li>Clean interface for desktop and mobile</li>
+                </ul>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-primary mt-3">Back to dashboard</a>
+            </div>
+
+        </div>
+
+        <div class="save-container">
+            <button type="submit" class="save-btn">
+                Save Settings
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -3,76 +3,253 @@
 {% block page_title %}Add New Item{% endblock %}
 
 {% block content %}
-<div class="container-fluid px-0">
+
+<div class="inventory-page">
+
+  <div class="breadcrumb-custom">
+    Inventory › New item
+  </div>
+
   <div class="row g-4">
+
     <div class="col-lg-8">
-      <div class="card-glass p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="mb-0">New item</h4>
-          <a href="{% url 'inventory_list' %}" class="btn btn-sm btn-outline-light">
+
+      <div class="main-card">
+
+        <div class="main-header">
+
+          <div class="title-wrap">
+
+            <div class="cube-icon">
+              <i class="bi bi-box-seam"></i>
+            </div>
+
+            <div>
+              <div class="page-heading">New item</div>
+              <div class="page-subtitle">
+                Add a new item to your inventory
+              </div>
+            </div>
+
+          </div>
+
+          <a href="{% url 'inventory_list' %}" class="back-btn">
             <i class="bi bi-arrow-left"></i> Back
           </a>
+
         </div>
-        <hr class="border-secondary mb-4">
 
         <form method="post" novalidate>
+
           {% csrf_token %}
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label small text-light-50">Name</label>
-              {{ form.name }}
-            </div>
-            <div class="col-md-6">
-              <label class="form-label small text-light-50">SKU</label>
-              {{ form.sku }}
-              <div class="form-text">Unique code to identify this item.</div>
+
+          <div class="form-section">
+
+            <div class="row g-4">
+
+              <div class="col-md-6">
+
+                <label class="custom-label">
+                  Name <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-blue">
+                    <i class="bi bi-bag"></i>
+                  </div>
+
+                  {{ form.name }}
+
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+
+                <label class="custom-label">
+                  SKU <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-blue">
+                    <i class="bi bi-upc"></i>
+                  </div>
+
+                  {{ form.sku }}
+
+                </div>
+
+                <div class="help-text">
+                  Unique code to identify this item.
+                </div>
+
+              </div>
+
+              <div class="col-12 description-wide">
+
+                <label class="custom-label">
+                  Description
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-purple">
+                    <i class="bi bi-file-earmark-text"></i>
+                  </div>
+
+                  {{ form.description }}
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4">
+
+                <label class="custom-label">
+                  Quantity <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-green">
+                    <i class="bi bi-boxes"></i>
+                  </div>
+
+                  {{ form.quantity }}
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4">
+
+                <label class="custom-label">
+                  Unit price (₹) <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-yellow">
+                    ₹
+                  </div>
+
+                  {{ form.unit_price }}
+
+                </div>
+
+              </div>
+
+              <div class="col-md-4">
+
+                <label class="custom-label" >
+                  Category
+                </label>
+
+                <div class="input-wrapper">
+
+                  <div class="input-icon icon-purple">
+                    <i class="bi bi-folder"></i>
+                  </div>
+
+                  {{ form.category }}
+
+                </div>
+
+              </div>
+
             </div>
 
-            <div class="col-12">
-              <label class="form-label small text-light-50">Description</label>
-              {{ form.description }}
+            {% if form.errors %}
+            <div class="alert alert-danger mt-4">
+              Please fix the highlighted fields.
             </div>
+            {% endif %}
 
-            <div class="col-md-4">
-              <label class="form-label small text-light-50">Quantity</label>
-              {{ form.quantity }}
-            </div>
-            <div class="col-md-4">
-              <label class="form-label small text-light-50">Unit price (₹)</label>
-              {{ form.unit_price }}
-            </div>
-            <div class="col-md-4">
-              <label class="form-label small text-light-50">Category</label>
-              {{ form.category }}
-            </div>
           </div>
 
-          {% if form.errors %}
-          <div class="alert alert-danger mt-3 py-2">
-            Please fix the highlighted fields.
-          </div>
-          {% endif %}
+          <div class="bottom-actions">
 
-          <div class="d-flex justify-content-end gap-2 mt-4">
-            <a href="{% url 'inventory_list' %}" class="btn btn-outline-secondary btn-sm">Cancel</a>
-            <button type="submit" class="btn btn-primary btn-sm px-4">
-              <i class="bi bi-save me-1"></i>Save item
+            <a href="{% url 'inventory_list' %}" class="cancel-btn">
+              Cancel
+            </a>
+
+            <button type="submit" class="save-btn">
+              <i class="bi bi-floppy me-1"></i>
+              Save item
             </button>
+
           </div>
+
         </form>
+
       </div>
+
     </div>
 
     <div class="col-lg-4">
-      <div class="card-glass p-3 h-100">
-        <h6 class="text-light-50 mb-3">Quick tips</h6>
-        <ul class="small text-secondary mb-0">
-          <li>Use a consistent SKU format like MILK-001.</li>
-          <li>Quantity is your current stock.</li>
-          <li>Unit price is your purchase price per unit.</li>
-        </ul>
+
+      <div class="tips-card">
+
+        <div class="tips-title">
+          Quick tips
+        </div>
+
+        <div class="tip-item">
+
+          <div class="tip-icon icon-blue">
+            <i class="bi bi-upc"></i>
+          </div>
+
+          <div class="tip-text">
+            <h6>Use a consistent SKU</h6>
+            <p>Use a consistent SKU format like MILK-001.</p>
+          </div>
+
+        </div>
+
+        <div class="tip-item">
+
+          <div class="tip-icon icon-green">
+            <i class="bi bi-boxes"></i>
+          </div>
+
+          <div class="tip-text">
+            <h6>Quantity is current stock</h6>
+            <p>Enter the current available stock of this item.</p>
+          </div>
+
+        </div>
+
+        <div class="tip-item no-border">
+
+          <div class="tip-icon icon-yellow">
+            ₹
+          </div>
+
+          <div class="tip-text">
+            <h6>Unit price matters</h6>
+            <p>This is your purchase price per unit.</p>
+          </div>
+
+        </div>
+
       </div>
+
     </div>
+
   </div>
+
 </div>
+
+<script>
+  document.getElementById("id_name").classList.add("custom-input");
+  document.getElementById("id_sku").classList.add("custom-input");
+  document.getElementById("id_description").classList.add("custom-textarea");
+  document.getElementById("id_quantity").classList.add("custom-input");
+  document.getElementById("id_unit_price").classList.add("custom-input");
+  document.getElementById("id_category").classList.add("custom-input");
+</script>
+
 {% endblock %}
